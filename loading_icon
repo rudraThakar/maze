@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <windows.h>
+
+void clearConsole() {
+    system("cls");
+}
+
+int main() {
+    int i=0;
+    while(1){
+        if(i==0){
+            clearConsole();
+            printf("Loading..");
+            i=1;
+        }
+        Sleep(400);
+        if(i==1){
+            clearConsole();
+            printf("Loading....");
+            i=2;
+        }
+        Sleep(400);
+        if(i==2){
+            clearConsole();
+            printf("Loading......");
+            i=3;
+        }
+        Sleep(400);
+        if(i==3){
+            clearConsole();
+            printf("Loading.........");
+            i++;
+        }
+        Sleep(400);
+        if(i==4){
+            clearConsole();
+            printf("Loading...........");
+            i++;
+        }
+        Sleep(400);
+        if(i==5){
+            clearConsole();
+            printf("Loading..............");
+            i++;
+        }
+        Sleep(400);
+        if(i==6){
+            clearConsole();
+            printf("Loading..............");
+            i++;
+        }
+        Sleep(400);
+        if(i==7){
+            clearConsole();
+            printf("Loading...........");
+            i++;
+        }
+        Sleep(400);
+        if(i==8){
+            clearConsole();
+            printf("Loading.........");
+            i++;
+        }
+        Sleep(400);
+        if(i==9){
+            clearConsole();
+            printf("Loading......");
+            i++;
+        }
+        Sleep(400);
+        if(i==10){
+            clearConsole();
+            printf("Loading....");
+            i++;
+        }
+        Sleep(400);
+        if(i==11){
+            clearConsole();
+            printf("Loading..");
+            i=0;
+        }
+        Sleep(400);
+    }
+    return 0;
+}
