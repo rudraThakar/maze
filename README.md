@@ -40,7 +40,7 @@ The Hardcoders team contributed to the development of this project:
 ## About
 
 This maze generator and solver project were developed as part of an IC project. 
-Note : The original repo was moved from 
+Note : The original repo was moved from https://github.com/Binarybard07/ICS_CP_Hardcoders.git
 
 
 ## Info related to Code and Algoritms used.
