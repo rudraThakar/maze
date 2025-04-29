@@ -1,0 +1,156 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+#include <windows.h>
+
+struct cell_data{
+    
+    char cell_char;
+    int x,y,num,index;
+    bool cell_visited;
+    bool can_be_visited;
+    bool is_wall;
+
+}current_cell,neighbour_cell[4],*ptr;
+
+void print_maze(struct cell_data *ptr,int height,int width){
+
+    int index=0;
+
+    for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
+                        
+            if(ptr[index].is_wall || ptr[index].x==0 || ptr[index].x==width-1 || ptr[index].y==0 || ptr[index].y==height-1){
+                ptr[index].cell_char='*';
+            }
+            else{
+                ptr[index].cell_char=' ';
+            }
+            if(ptr[index].x==0 && ptr[index].y==height-2){
+                ptr[index].cell_char='S';
+                ptr[index].can_be_visited=false;
+            }
+            if(ptr[index].x==width-1 && ptr[index].y==1){
+                ptr[index].cell_char='E';
+            }
+
+            printf("%c ",ptr[index].cell_char);
+            Sleep(10);
+            index++;
+
+        }
+        printf("\n");
+    }
+}
+
+int random_number(int max){
+    int random;
+    random=rand()%max;
+    return random;
+}
+
+bool valid_cell(int index,int height,int width){
+    if(index>-1 && index<height*width){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void neighbour_cell_data(struct cell_data current_cell,struct cell_data *ptr,int height,int width){
+    
+    if(valid_cell(current_cell.index-width,height,width) && !ptr[current_cell.index-width].is_wall){
+        neighbour_cell[0]=ptr[current_cell.index-width];
+    }
+    else{
+        neighbour_cell[0].can_be_visited=false;
+    }
+
+    if(valid_cell(current_cell.index+1,height,width) && !ptr[current_cell.index+1].is_wall){
+        neighbour_cell[1]=ptr[current_cell.index+1];
+    }
+    else{
+        neighbour_cell[1].can_be_visited=false;
+    }
+
+    if(valid_cell(current_cell.index+width,height,width) && !ptr[current_cell.index+width].is_wall){
+        neighbour_cell[2]=ptr[current_cell.index+width];
+    }
+    else{
+        neighbour_cell[2].can_be_visited=false;
+    }    
+    
+    if(valid_cell(current_cell.index-1,height,width) && !ptr[current_cell.index-1].is_wall){
+        neighbour_cell[3]=ptr[current_cell.index-1];
+    }
+    else{
+        neighbour_cell[3].can_be_visited=false;
+    }
+
+}
+
+void dfs(struct cell_data current_cell, struct cell_data *ptr) {
+    if (current_cell.cell_char == 'E') {
+        return;  // Reached the exit cell, stop recursion
+    }
+
+    for (int i = 0; i < 4; i++) {
+        if (neighbour_cell[i].can_be_visited) {
+            ptr[current_cell.index].cell_char = ' ';
+            dfs(neighbour_cell[i], ptr);
+        }
+    }
+}
+
+int main(){
+
+    srand(time(NULL)*random_number(10)+random_number(20)*3);
+    int height,width,k=0;
+
+    printf("Enter Height of the maze: ");
+    scanf("%d",&height);
+
+    printf("Enter Width of the maze: ");
+    scanf("%d",&width);
+
+    printf("\n");
+
+    struct cell_data cell[height*width];
+    ptr=cell;
+
+    for(int index=0;index<height*width;index++){
+        cell[index].num=index+1;
+        cell[index].is_wall=1;
+    }
+
+    for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
+            cell[k].x=j;
+            cell[k].y=i;
+            cell[k].can_be_visited=true;
+
+            if(cell[k].x==0 && cell[k].y==height-2){
+                cell[k].cell_char='S';
+                cell[k].can_be_visited=false;
+            }
+            else if(cell[k].x==width-1 && cell[k].y==1){
+                cell[k].cell_char='E';
+                cell[k].can_be_visited=false;
+            }
+            if(cell[k].x!=0 && cell[k].x!=width-1 && cell[k].y!=0 && cell[k].y!=height-1){
+                cell[k].can_be_visited=true;
+                cell[k].is_wall=false;
+            }
+            k++;
+        }
+    }
+
+    current_cell=cell[((height*width)-1)-(width*2)+2];
+    neighbour_cell_data(current_cell,cell,height,width);
+    dfs(current_cell,ptr);
+    print_maze(cell,height,width);
+
+    return 0;
+}
